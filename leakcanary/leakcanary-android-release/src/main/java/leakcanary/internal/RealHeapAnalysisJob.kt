@@ -219,9 +219,6 @@ internal class RealHeapAnalysisJob(
   }
 
   private fun dumpHeap(heapDumpFile: File) {
-    heapDumpFile.setWritable(true)
-    heapDumpFile.setReadable(true)
-
     Debug.dumpHprofData(heapDumpFile.absolutePath)
 
     check(heapDumpFile.exists()) {
@@ -230,6 +227,10 @@ internal class RealHeapAnalysisJob(
 
     check(heapDumpFile.length() > 0L) {
       "File has length ${heapDumpFile.length()} after dump"
+    }
+
+    check(heapDumpFile.setReadable(true) &&  heapDumpFile.setWritable(true)) {
+      "File has no Read or Write access."
     }
   }
 
